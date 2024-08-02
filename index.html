@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>IRCC 🍁 TICASUK</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="extra.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">IRCC 🍁 TICASUK</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#introduction" class="nav-link">Introduction</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#architecture" class="nav-link">Architecture</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#user-guide" class="nav-link">User guide</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="introduction">Introduction</h1>
+<p>This chatbot is a user-centric platform that allows users to interact with and understand multiple datasets through an innovative, interactive interface by using different options. Using different LLMs and a robust database, the chatbot provides users with a versatile and user-friendly interface to manage and analyze data efficiently. This platform allows users to upload datasets of Immigration, Refugees and Citizenship Canada (IRCC) in excel, CSV or PDF format, enter natural language query related to it and retrieve precise information quickly in the form of voice or text. Also, they can visualize those results, and derive insights from data in an intuitive and accessible manner. Overall, it is a powerful tool designed to make data interaction more accessible, efficient, and insightful which processes the inputs and provides the responses through an intuitive interface, ensuring a seamless user experience.</p>
+<h1 id="architecture">Architecture</h1>
+<p><img alt="Architecture" src="architecture1.jpeg" /></p>
+<p>Ticasuk is designed to offer a flexible and interactive interface for querying, uploading, and visualizing data. The architecture is structured around three main modes of operation, all of which are supported by a connection to a MySQL database (or any other database based on requirement) and various Large Language Models (LLMs). The system's flow and components are organized to give information to users through their interactions with the chatbot.</p>
+<p><strong>Entry Point:</strong> The entry point of the application is the main component where users initiate their interaction. From there, users are prompted to select a mode of operation.</p>
+<p><strong>Mode Selection:</strong> Users can choose between three modes of operation:<br />
+Mode 1: Query Existing Data<br />
+Mode 2: Upload and Query New Data (Excel/CSV or PDF upload)<br />
+Mode 3: Visualize Your Data</p>
+<p><strong>LLM Selection:</strong> After selecting a mode, users choose Large Language Model (LLM) for processing their requests. Available LLM options include:<br />
+gpt-3.5-turbo-0125<br />
+gpt-3.5-turbo<br />
+gpt-4o-2024-05-13<br />
+gpt-4o-mini</p>
+<p><strong>Database Connection:</strong> Once an LLM is selected, the system establishes a connection to the database, which serves as the backbone for data operations.</p>
+<p><strong>Modes of Operation</strong><br />
+Mode 1: Query Existing Data<br />
+In this mode, the system utilizes a combination of a SQL Agent and SQL Chain for querying existing data in the MySQL database.<br />
+SQL Agent is responsible for setting system prefixes and training, while SQL Chain employs reinforcement learning techniques to refine the query process.<br />
+The query results are fetched from the MySQL database and, if necessary, enhanced using a Vector Database (FAISS) to provide relevant information.<br />
+The response to the user is generated based on the input type (text or audio), delivering text or voice output as needed.</p>
+<p>Mode 2: Upload and Query New Data<br />
+This mode allows users to upload new data in Excel, CSV, or PDF formats.<br />
+For Excel/CSV uploads, the data is directly queried from the MySQL database.<br />
+For PDF uploads, the system uses RAG -&gt; Chain to process and query the new data.<br />
+The mechanism for querying the uploaded data follows a similar process as in Mode 1, ensuring seamless integration with the existing datasets.</p>
+<p>Mode 3: Visualize Your Data<br />
+This mode provides users with tools to visualize their data after selecting a table from the database.<br />
+The visualization process is facilitated by LIDA (a tool that uses LLMs for automatic generation of Grammar-Agnostic Visualizations and Infographics). </p>
+<p>LIDA offers functionalities such as:<br />
+Summarization: Providing a concise overview of the data.<br />
+Goal Setting: Suggesting objectives based on the data, which can be further refined based on user personas.</p>
+<p>The system can deliver the visualization as text, voice, or visual output depending on user input.</p>
+<p><strong>Response Generation:</strong> The system generates responses in different formats (text, voice, or visual) based on the input type:<br />
+If the input is text, the response is in text format.<br />
+If the input is voice, the response includes both voice and text.<br />
+Visual responses are provided when appropriate, such as in data visualization.</p>
+<h1 id="user-guide">User guide</h1>
+<p><strong>Getting Started</strong><br />
+Initiate Interaction: Begin by interacting with the main component of the chatbot. This is your entry point into the system.</p>
+<p><strong>Selecting a Mode of Operation</strong><br />
+Once you start, you’ll be prompted to choose one of the following modes:</p>
+<p>Mode 1: Query Existing Data<br />
+Mode 2: Upload and Query New Data<br />
+Mode 3: Visualize Your Data</p>
+<p><strong>Mode Details</strong><br />
+<strong><em>Mode 1: Query Existing Data</em></strong><br />
+Steps:<br />
+Select Mode 1: Choose the option to query existing data.<br />
+Choose LLM: Select from the available Large Language Models (LLMs) for query processing:<br />
+gpt-3.5-turbo-0125<br />
+gpt-3.5-turbo<br />
+gpt-4o-2024-05-13<br />
+gpt-4o-mini<br />
+Input Query: Enter your SQL query or data request.<br />
+Receive Results: The system utilizes the SQL Agent and SQL Chain, along with reinforcement learning, to process your query and retrieve the relevant data from the MySQL database.</p>
+<p><strong><em>Mode 2: Upload and Query New Data</em></strong><br />
+<strong><em>Steps:</em></strong><br />
+Select Mode 2: Choose the option to upload and query new data.<br />
+Upload Data: Upload your data files in Excel, CSV, or PDF format.<br />
+If Excel or CSV, the data is directly queried from the MySQL database.<br />
+If PDF, the system processes the data using RAG -&gt; Chain before querying.<br />
+Choose LLM: Select an LLM for processing your queries.<br />
+Query New Data: Formulate your query based on the newly uploaded data.<br />
+Receive Results: Results are generated and provided based on the data you uploaded, using the appropriate processing mechanisms.</p>
+<p><strong><em>Mode 3: Visualize Your Data</em></strong><br />
+<strong><em>Steps:</em></strong><br />
+Select Mode 3: Choose the option to visualize your data.<br />
+Choose Table: Select the table you wish to visualize from the MySQL database and enter the query.<br />
+Summarization: Get a concise overview of data in a table.<br />
+Goal Setting: Receive suggestions for objectives based on user personas. You can refine these suggestions further to align with specific goals.<br />
+Receive Visualizations: The visual representations, including infographics, are automatically generated based on your data.</p>
+<p><strong>Tips for Effective Use</strong><br />
+<strong><em>Be Specific:</em></strong> Provide clear and specific queries or data files to get the most accurate results. Mention the table name in the query from which data needs to be acquired.<br />
+<strong><em>Choose the Right LLM:</em></strong> Select the LLM that best suits your needs for querying or data visualization. Also, refresh the chatbot before entering any new query.<br />
+<strong><em>Explore Visualizations:</em></strong> Use the visualization mode to gain insights through graphical representations of your data.</p>
+<p><strong>Troubleshooting</strong><br />
+<strong><em>Data Not Found:</em></strong> Ensure that your queries are correct and that the data exists in the database or file you are using.<br />
+<strong><em>Upload Issues:</em></strong> Check the file format and ensure it is properly formatted as Excel, CSV or PDF.
+Visualization Problems: Verify that the table selection and data inputs are accurate.</p>
+<p>Feel free to reach out if you need further assistance or have any questions about using the OpenData Chatbot. Happy data exploring!</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.0
+Build Date UTC : 2024-08-02 00:46:29.404380+00:00
+-->
