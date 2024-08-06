@@ -1,0 +1,15 @@
+site_name: "IRCC 🍁 TICASUK"
+
+
+
+nav:
+  - Home: index.md
+  
+
+extra_css:
+  - extra.css
+
+plugins:
+  - pdf-export
+
+
